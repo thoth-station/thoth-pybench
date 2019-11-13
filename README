@@ -1,3 +1,11 @@
+This repository contains an adopted version of "PyBench"
+from https://openbenchmarking.org/test/pts/pybench.
+
+Additional changes have been made by the Thoth team to make this great tool
+work on Python3+. This package is also available on PyPI:
+
+  https://pypi.org/project/thoth-pybench
+
 ________________________________________________________________________
 
 PYBENCH - A Python Benchmark Suite
