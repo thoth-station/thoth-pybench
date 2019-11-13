@@ -23,4 +23,5 @@ setup(
     ],
     zip_safe=False,
     install_requires=[],
+    long_description_content_type="text/plain",
 )
