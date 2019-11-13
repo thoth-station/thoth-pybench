@@ -35,7 +35,7 @@ WITH THE USE OR PERFORMANCE OF THIS SOFTWARE !
 """
 
 import sys, time, operator, string, platform
-from CommandLine import *
+from .CommandLine import *
 from functools import reduce
 
 try:
@@ -387,7 +387,7 @@ class Test:
 # This has to be done after the definition of the Test class, since
 # the Setup module will import subclasses using this class.
 
-import Setup
+import pybench.Setup as Setup
 
 ### Benchmark base class
 

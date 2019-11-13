@@ -1,5 +1,5 @@
 
-from pybench import Test
+from .pybench import Test
 
 class WithFinally(Test):
 

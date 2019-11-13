@@ -1,4 +1,4 @@
-from pybench import Test
+from .pybench import Test
 
 class CreateInstances(Test):
 

@@ -17,27 +17,27 @@ Number_of_rounds = 10
 Warp_factor = 10
 
 # Import tests
-from Arithmetic import *
-from Calls import *
-from Constructs import *
-from Lookups import *
-from Instances import *
+from .Arithmetic import *
+from .Calls import *
+from .Constructs import *
+from .Lookups import *
+from .Instances import *
 try:
-    from NewInstances import *
+    from .NewInstances import *
 except ImportError:
     pass
-from Lists import *
-from Tuples import *
-from Dict import *
-from Exceptions import *
+from .Lists import *
+from .Tuples import *
+from .Dict import *
+from .Exceptions import *
 try:
-    from With import *
+    from .With import *
 except SyntaxError:
     pass
-from Imports import *
-from Strings import *
-from Numbers import *
+from .Imports import *
+from .Strings import *
+from .Numbers import *
 try:
-    from Unicode import *
+    from .Unicode import *
 except (ImportError, SyntaxError):
     pass
