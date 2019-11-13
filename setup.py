@@ -8,7 +8,7 @@ def read(fname):
 
 setup(
     name="thoth-pybench",
-    version="0.0.1",
+    version="0.0.2",
     description="Adopted PyBench tool to benchmark Python interpreter by the Thoth team.",
     long_description=read("README"),
     author="Marc-Andre Lemburg",
@@ -24,4 +24,5 @@ setup(
     zip_safe=False,
     install_requires=[],
     long_description_content_type="text/plain",
+    entry_points={"console_scripts": ["pybench=pybench.pybench:PyBenchCmdline"]},
 )

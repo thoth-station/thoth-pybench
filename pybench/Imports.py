@@ -1,8 +1,8 @@
-from pybench import Test
+from .pybench import Test
 
 # First imports:
 import os
-import package.submodule
+import pybench.package.submodule
 
 class SecondImport(Test):
 
@@ -58,35 +58,35 @@ class SecondPackageImport(Test):
     def test(self):
 
         for i in range(self.rounds):
-            import package
-            import package
-            import package
-            import package
-            import package
+            import pybench.package
+            import pybench.package
+            import pybench.package
+            import pybench.package
+            import pybench.package
 
-            import package
-            import package
-            import package
-            import package
-            import package
+            import pybench.package
+            import pybench.package
+            import pybench.package
+            import pybench.package
+            import pybench.package
 
-            import package
-            import package
-            import package
-            import package
-            import package
+            import pybench.package
+            import pybench.package
+            import pybench.package
+            import pybench.package
+            import pybench.package
 
-            import package
-            import package
-            import package
-            import package
-            import package
+            import pybench.package
+            import pybench.package
+            import pybench.package
+            import pybench.package
+            import pybench.package
 
-            import package
-            import package
-            import package
-            import package
-            import package
+            import pybench.package
+            import pybench.package
+            import pybench.package
+            import pybench.package
+            import pybench.package
 
     def calibrate(self):
 
@@ -102,35 +102,35 @@ class SecondSubmoduleImport(Test):
     def test(self):
 
         for i in range(self.rounds):
-            import package.submodule
-            import package.submodule
-            import package.submodule
-            import package.submodule
-            import package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
 
-            import package.submodule
-            import package.submodule
-            import package.submodule
-            import package.submodule
-            import package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
 
-            import package.submodule
-            import package.submodule
-            import package.submodule
-            import package.submodule
-            import package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
 
-            import package.submodule
-            import package.submodule
-            import package.submodule
-            import package.submodule
-            import package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
 
-            import package.submodule
-            import package.submodule
-            import package.submodule
-            import package.submodule
-            import package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
+            import pybench.package.submodule
 
     def calibrate(self):
 

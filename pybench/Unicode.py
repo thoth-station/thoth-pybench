@@ -3,8 +3,7 @@ try:
 except NameError:
     raise ImportError
 
-from pybench import Test
-from string import join
+from .pybench import Test
 
 class ConcatUnicode(Test):
 
@@ -13,10 +12,9 @@ class ConcatUnicode(Test):
     rounds = 60000
 
     def test(self):
-
         # Make sure the strings are *not* interned
-        s = str(join(list(map(str,list(range(100))))))
-        t = str(join(list(map(str,list(range(1,101))))))
+        s = str("".join(list(map(str,list(range(100))))))
+        t = str("".join(list(map(str,list(range(1,101))))))
 
         for i in range(self.rounds):
             t + s
@@ -81,8 +79,8 @@ class ConcatUnicode(Test):
 
     def calibrate(self):
 
-        s = str(join(list(map(str,list(range(100))))))
-        t = str(join(list(map(str,list(range(1,101))))))
+        s = str("".join(list(map(str,list(range(100))))))
+        t = str("".join(list(map(str,list(range(1,101))))))
 
         for i in range(self.rounds):
             pass
@@ -97,8 +95,8 @@ class CompareUnicode(Test):
     def test(self):
 
         # Make sure the strings are *not* interned
-        s = str(join(list(map(str,list(range(10))))))
-        t = str(join(list(map(str,list(range(10))))) + "abc")
+        s = str("".join(list(map(str,list(range(10))))))
+        t = str("".join(list(map(str,list(range(10))))) + "abc")
 
         for i in range(self.rounds):
             t < s
@@ -163,8 +161,8 @@ class CompareUnicode(Test):
 
     def calibrate(self):
 
-        s = str(join(list(map(str,list(range(10))))))
-        t = str(join(list(map(str,list(range(10))))) + "abc")
+        s = str("".join(list(map(str,list(range(10))))))
+        t = str("".join(list(map(str,list(range(10))))) + "abc")
 
         for i in range(self.rounds):
             pass
@@ -253,7 +251,7 @@ class UnicodeSlicing(Test):
 
     def test(self):
 
-        s = str(join(list(map(str,list(range(100))))))
+        s = str("".join(list(map(str,list(range(100))))))
 
         for i in range(self.rounds):
 
@@ -299,7 +297,7 @@ class UnicodeSlicing(Test):
 
     def calibrate(self):
 
-        s = str(join(list(map(str,list(range(100))))))
+        s = str("".join(list(map(str,list(range(100))))))
 
         for i in range(self.rounds):
             pass
@@ -314,10 +312,10 @@ class UnicodeMappings(Test):
 
     def test(self):
 
-        s = join(list(map(chr,list(range(20)))),'')
-        t = join(list(map(chr,list(range(100)))),'')
-        u = join(list(map(chr,list(range(500)))),'')
-        v = join(list(map(chr,list(range(1000)))),'')
+        s = "".join(list(map(chr,list(range(20)))))
+        t = "".join(list(map(chr,list(range(100)))))
+        u = "".join(list(map(chr,list(range(500)))))
+        v = "".join(list(map(chr,list(range(1000)))))
 
         for i in range(self.rounds):
 
@@ -371,10 +369,10 @@ class UnicodeMappings(Test):
 
     def calibrate(self):
 
-        s = join(list(map(chr,list(range(20)))),'')
-        t = join(list(map(chr,list(range(100)))),'')
-        u = join(list(map(chr,list(range(500)))),'')
-        v = join(list(map(chr,list(range(1000)))),'')
+        s = "".join(list(map(chr,list(range(20)))))
+        t = "".join(list(map(chr,list(range(100)))))
+        u = "".join(list(map(chr,list(range(500)))))
+        v = "".join(list(map(chr,list(range(1000)))))
 
         for i in range(self.rounds):
             pass
