@@ -37,6 +37,7 @@ WITH THE USE OR PERFORMANCE OF THIS SOFTWARE !
 import sys, time, operator, string, platform
 from .CommandLine import *
 from functools import reduce
+import json
 
 try:
     import _pickle as cPickle
@@ -597,7 +598,7 @@ class Benchmark:
             print_machine_details(self.machine_details, indent='    ')
             print()
 
-    def print_benchmark(self, hidenoise=0, limitnames=None):
+    def print_benchmark(self, hidenoise=0, limitnames=None, output_results: bool = False):
 
         print ('Test                          '
                '   minimum  average  operation  overhead')
@@ -606,6 +607,13 @@ class Benchmark:
         tests.sort()
         total_min_time = 0.0
         total_avg_time = 0.0
+
+        if output_results:
+            results = {}
+            results["title"] = self.name
+            results["results"] = {}
+            results["machine_details"] = self.machine_details
+
         for name, test in tests:
             if (limitnames is not None and
                 limitnames.search(name) is None):
@@ -623,13 +631,31 @@ class Benchmark:
                    avg_time * MILLI_SECONDS,
                    op_avg * MICRO_SECONDS,
                    min_overhead *MILLI_SECONDS))
+
+            if output_results:
+                results["results"][name] = {
+                    "minimum": min_time * MILLI_SECONDS,
+                    "average": avg_time * MILLI_SECONDS,
+                    "operation": op_avg * MICRO_SECONDS,
+                    "overhead": min_overhead * MILLI_SECONDS
+                    }
+
         print('-' * LINE)
         print(('Totals:                        '
                ' %6.0fms %6.0fms' %
                (total_min_time * MILLI_SECONDS,
                 total_avg_time * MILLI_SECONDS,
                 )))
+
+        if output_results:
+            results["results"]["Totals"] = {
+                "minimum": total_min_time * MILLI_SECONDS,
+                "average": total_avg_time * MILLI_SECONDS
+            }
         print()
+
+        if output_results:
+            return results
 
     def print_comparison(self, compare_to, hidenoise=0, limitnames=None):
 
@@ -763,6 +789,9 @@ class PyBenchCmdline(Application):
                ArgumentOption('-f',
                               'save benchmark to file arg',
                               ''),
+               ArgumentOption('-o',
+                              'type of file for the output (only for json)',
+                              ''),
                ArgumentOption('-c',
                               'compare benchmark with the one in file arg',
                               ''),
@@ -817,6 +846,7 @@ python pybench.py -s p25.pybench -c p21.pybench
 
         rounds = self.values['-n']
         reportfile = self.values['-f']
+        report_output_type = self.values['-o']
         show_bench = self.values['-s']
         compare_to = self.values['-c']
         hidenoise = self.values['-d']
@@ -937,25 +967,47 @@ python pybench.py -s p25.pybench -c p21.pybench
                                    hidenoise=hidenoise,
                                    limitnames=limitnames)
         else:
-            bench.print_benchmark(hidenoise=hidenoise,
-                                  limitnames=limitnames)
+            if not report_output_type:
+                bench.print_benchmark(hidenoise=hidenoise,
+                                    limitnames=limitnames)
+            else:
+                results = bench.print_benchmark(hidenoise=hidenoise,
+                                    limitnames=limitnames,
+                                    output_results=True)
 
         # Ring bell
         sys.stderr.write('\007')
 
         if reportfile:
-            try:
-                f = open(reportfile,'wb')
-                bench.name = reportfile
-                pickle.dump(bench,f)
-                f.close()
-            except IOError as reason:
-                print('* Error opening/writing reportfile')
-            except IOError as reason:
-                print('* Error opening/writing reportfile %s: %s' % (
-                    reportfile,
-                    reason))
-                print()
+            if report_output_type == "json":
+                # Save file to json format
+                print(results)
+                try:
+                    f = open(f"{reportfile}.json",'w')
+                    bench.name = reportfile
+                    json.dump(results, f, indent=2)
+                    f.close()
+                except IOError as reason:
+                    print('* Error opening/writing reportfile')
+                except IOError as reason:
+                    print('* Error opening/writing reportfile %s: %s' % (
+                        reportfile,
+                        reason))
+                    print()
+        
+            else:
+                try:
+                    f = open(reportfile,'wb')
+                    bench.name = reportfile
+                    pickle.dump(bench,f)
+                    f.close()
+                except IOError as reason:
+                    print('* Error opening/writing reportfile')
+                except IOError as reason:
+                    print('* Error opening/writing reportfile %s: %s' % (
+                        reportfile,
+                        reason))
+                    print()
 
 if __name__ == '__main__':
     PyBenchCmdline()
