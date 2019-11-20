@@ -981,7 +981,12 @@ python pybench.py -s p25.pybench -c p21.pybench
         if reportfile:
             if report_output_type == "json":
                 # Save file to json format
-                print(results)
+                results["test_inputs"] = {
+                    "pybench_version": __version__,
+                    "rounds": rounds,
+                    "warp": warp,
+                    "timer": timer
+                }
                 try:
                     f = open(f"{reportfile}.json",'w')
                     bench.name = reportfile
