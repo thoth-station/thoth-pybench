@@ -599,10 +599,10 @@ class Benchmark:
             print()
 
     def print_benchmark(self, hidenoise=0, limitnames=None, output_results: bool = False):
-        if not output_results:
-            print ('Test                          '
-                '   minimum  average  operation  overhead')
-            print('-' * LINE)
+
+        print ('Test                          '
+               '   minimum  average  operation  overhead')
+        print('-' * LINE)
         tests = list(self.tests.items())
         tests.sort()
         total_min_time = 0.0
@@ -625,13 +625,12 @@ class Benchmark:
              min_overhead) = test.stat()
             total_min_time = total_min_time + min_time
             total_avg_time = total_avg_time + avg_time
-            if not output_results:
-                print('%30s:  %5.0fms  %5.0fms  %6.2fus  %7.3fms' % \
-                    (name,
-                    min_time * MILLI_SECONDS,
-                    avg_time * MILLI_SECONDS,
-                    op_avg * MICRO_SECONDS,
-                    min_overhead *MILLI_SECONDS))
+            print('%30s:  %5.0fms  %5.0fms  %6.2fus  %7.3fms' % \
+                  (name,
+                   min_time * MILLI_SECONDS,
+                   avg_time * MILLI_SECONDS,
+                   op_avg * MICRO_SECONDS,
+                   min_overhead *MILLI_SECONDS))
 
             if output_results:
                 results["results"][name] = {
@@ -640,21 +639,20 @@ class Benchmark:
                     "operation": op_avg * MICRO_SECONDS,
                     "overhead": min_overhead * MILLI_SECONDS
                     }
-        if not output_results:
-            print('-' * LINE)
-            print(('Totals:                        '
-                ' %6.0fms %6.0fms' %
-                (total_min_time * MILLI_SECONDS,
-                    total_avg_time * MILLI_SECONDS,
-                    )))
+
+        print('-' * LINE)
+        print(('Totals:                        '
+               ' %6.0fms %6.0fms' %
+               (total_min_time * MILLI_SECONDS,
+                total_avg_time * MILLI_SECONDS,
+                )))
 
         if output_results:
             results["results"]["Totals"] = {
                 "minimum": total_min_time * MILLI_SECONDS,
                 "average": total_avg_time * MILLI_SECONDS
             }
-        if not output_results:
-            print()
+        print()
 
         if output_results:
             return results
@@ -792,7 +790,7 @@ class PyBenchCmdline(Application):
                               'save benchmark to file arg',
                               ''),
                ArgumentOption('-o',
-                              'type of output: json',
+                              'type of file for the output (only for json)',
                               ''),
                ArgumentOption('-c',
                               'compare benchmark with the one in file arg',
@@ -867,13 +865,12 @@ python pybench.py -s p25.pybench -c p21.pybench
         calibration_runs = self.values['-C']
         timer = self.values['--timer']
 
-        if not report_output_type:
-            print('-' * LINE)
-            print('PYBENCH %s' % __version__)
-            print('-' * LINE)
-            print('* using %s %s' % (
-                getattr(platform, 'python_implementation', lambda:'Python')(),
-                ''.join(str.split(sys.version))))
+        print('-' * LINE)
+        print('PYBENCH %s' % __version__)
+        print('-' * LINE)
+        print('* using %s %s' % (
+            getattr(platform, 'python_implementation', lambda:'Python')(),
+            ''.join(str.split(sys.version))))
 
         # Switch off garbage collection
         if not withgc:
@@ -902,14 +899,12 @@ python pybench.py -s p25.pybench -c p21.pybench
 
         if timer == TIMER_SYSTIMES_PROCESSTIME:
             import systimes
-            if not report_output_type:
-                print('* using timer: systimes.processtime (%s)' % \
-                    systimes.SYSTIMES_IMPLEMENTATION)
+            print('* using timer: systimes.processtime (%s)' % \
+                  systimes.SYSTIMES_IMPLEMENTATION)
         else:
-            if not report_output_type:
-                print('* using timer: %s' % timer)
-        if not report_output_type:
-            print()
+            print('* using timer: %s' % timer)
+
+        print()
 
         if compare_to:
             try:
@@ -945,11 +940,10 @@ python pybench.py -s p25.pybench -c p21.pybench
                 print()
             return
 
-        if not report_output_type:
-            if reportfile:
-                print('Creating benchmark: %s (rounds=%i, warp=%i)' % \
-                    (reportfile, rounds, warp))
-                print()
+        if reportfile:
+            print('Creating benchmark: %s (rounds=%i, warp=%i)' % \
+                  (reportfile, rounds, warp))
+            print()
 
         # Create benchmark object
         bench = Benchmark(reportfile,
@@ -993,8 +987,19 @@ python pybench.py -s p25.pybench -c p21.pybench
                     "warp": warp,
                     "timer": timer
                 }
-                json.dump(result, sys.stdout, indent=2)
-
+                try:
+                    f = open(f"{reportfile}.json",'w')
+                    bench.name = reportfile
+                    json.dump(results, f, indent=2)
+                    f.close()
+                except IOError as reason:
+                    print('* Error opening/writing reportfile')
+                except IOError as reason:
+                    print('* Error opening/writing reportfile %s: %s' % (
+                        reportfile,
+                        reason))
+                    print()
+        
             else:
                 try:
                     f = open(reportfile,'wb')
