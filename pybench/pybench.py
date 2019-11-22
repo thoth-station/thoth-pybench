@@ -993,8 +993,8 @@ python pybench.py -s p25.pybench -c p21.pybench
                     "warp": warp,
                     "timer": timer
                 }
-                json.dump(results, sys.stdout, indent=2)
-
+                with open(reportfile, "w") as output_file:
+                    json.dump(results, output_file, indent=2)
             else:
                 try:
                     f = open(reportfile,'wb')
