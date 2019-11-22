@@ -322,6 +322,8 @@ class Application:
         # Setup Option mapping
         self.option_map = option_dict(self.options)
 
+        self.exit_code = 0
+
         # Append preset options
         for option in self.preset_options:
             if option.name not in self.option_map:
@@ -343,10 +345,7 @@ class Application:
                 raise SystemExit(rc)
 
             # Start application
-            rc = self.main()
-            if rc is None:
-                rc = 0
-
+            self.exit_code = self.main()
         except SystemExit as rc:
             pass
 
@@ -354,7 +353,7 @@ class Application:
             print()
             print('* User Break')
             print()
-            rc = 1
+            raise SystemExit(1)
 
         except Exception:
             print()
@@ -365,9 +364,7 @@ class Application:
             elif self.verbose:
                 print('  %s: %s' % sys.exc_info()[:2])
             print()
-            rc = 1
-
-        raise SystemExit(rc)
+            raise SystemExit(1)
 
     def add_option(self, option):
 
