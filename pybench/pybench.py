@@ -993,7 +993,7 @@ python pybench.py -s p25.pybench -c p21.pybench
                     "warp": warp,
                     "timer": timer
                 }
-                json.dump(result, sys.stdout, indent=2)
+                json.dump(results, sys.stdout, indent=2)
 
             else:
                 try:
