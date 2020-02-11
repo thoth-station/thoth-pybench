@@ -1,0 +1,12 @@
+managers:
+  - name: info
+  - name: version
+    configuration:
+      maintainers:
+        - pacospace
+        - goern
+        - fridex
+      assignees:
+        - sesheta
+      labels: [bot]
+      changelog_file: false
