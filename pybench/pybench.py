@@ -40,7 +40,7 @@ from functools import reduce
 import json
 
 try:
-    import _pickle as cPickle
+    import _pickle as pickle
 except ImportError:
     import pickle
 
