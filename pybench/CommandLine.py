@@ -503,7 +503,7 @@ class Application:
             print(' %s' % self.version)
             print()
         if self.about:
-            print(string.strip(self.about % self.__dict__))
+            print(str.strip(self.about % self.__dict__))
             print()
         if note:
             print('-'*72)
@@ -533,7 +533,7 @@ class Application:
             return
         long = [x for x in options if x.prefix == '--']
         short = [x for x in options if x.prefix == '-']
-        items = short + int
+        items = short.append(int)
         for o in options:
             print(' ',o)
         print()
@@ -577,7 +577,7 @@ class Application:
     def handle__copyright(self,arg):
 
         self.print_header()
-        print(string.strip(self.copyright % self.__dict__))
+        print(str.strip(self.copyright % self.__dict__))
         print()
         return 0
 
@@ -587,7 +587,7 @@ class Application:
         if self.examples:
             print('Examples:')
             print()
-            print(string.strip(self.examples % self.__dict__))
+            print(str.strip(self.examples % self.__dict__))
             print()
         else:
             print('No examples available.')
